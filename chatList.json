@@ -1,0 +1,45 @@
+[
+  {
+    "name": "Pawan Kumar",
+    "message": "Hey Flutter, You are so amazing !",
+    "time": "15:30",
+    "isGroup": false,
+    "avatarUrl": "http://www.usanetwork.com/sites/usanetwork/files/styles/629x720/public/suits_cast_harvey.jpg?itok=fpTOeeBb"
+  },
+  {
+    "name": "Harvey Spectre",
+    "message": "Hey I have hacked whatsapp!",
+    "time": "17:30",
+    "isMuted": true,
+    "isGroup": true,
+    "avatarUrl": "http://www.usanetwork.com/sites/usanetwork/files/styles/629x720/public/suits_cast_harvey.jpg?itok=fpTOeeBb"
+  },
+  {
+    "name": "Mike Ross",
+    "message": "Wassup !",
+    "time": "5:00",
+    "isGroup": false,
+    "avatarUrl": "http://www.usanetwork.com/sites/usanetwork/files/styles/629x720/public/suits_cast_harvey.jpg?itok=fpTOeeBb"
+  },
+  {
+    "name": "Rachel",
+    "message": "I'm good!",
+    "time": "10:30",
+    "isGroup": true,
+    "avatarUrl": "http://www.usanetwork.com/sites/usanetwork/files/styles/629x720/public/suits_cast_harvey.jpg?itok=fpTOeeBb"
+  },
+  {
+    "name": "Barry Allen",
+    "message": "I'm the fastest man alive!",
+    "time": "12:30",
+    "isGroup": false,
+    "avatarUrl": "http://www.usanetwork.com/sites/usanetwork/files/styles/629x720/public/suits_cast_harvey.jpg?itok=fpTOeeBb"
+  },
+  {
+    "name": "Joe West",
+    "message": "Hey Flutter, You are so cool !",
+    "time": "15:30",
+    "isGroup": true,
+    "avatarUrl": "http://www.usanetwork.com/sites/usanetwork/files/styles/629x720/public/suits_cast_harvey.jpg?itok=fpTOeeBb"
+  }
+]
