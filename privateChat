@@ -1,0 +1,98 @@
+[
+  {
+    "messageType": "theirs",
+    "messageStatis": "recivedByClient",
+    "message": "everything is ok?",
+    "time": "20:02",
+    "isFirstInSequence": false
+  },
+  {
+    "messageType": "theirs",
+    "messageStatis": "recivedByClient",
+    "message": "I'm ok' how about yourself?",
+    "time": "20:01",
+    "isFirstInSequence": true
+  },
+  {
+    "messageType": "mine",
+    "messageStatis": "readByUser",
+    "message": "hi there",
+    "time": "20:01",
+    "isFirstInSequence": true
+  },
+  {
+    "messageType": "theirs",
+    "messageStatis": "readByUser",
+    "message": "hi, how are you?",
+    "time": "20:00",
+    "isFirstInSequence": true
+  },
+  {
+    "messageType": "time",
+    "message": "Today"
+  },
+  {
+    "messageType": "theirs",
+    "messageStatis": "recivedByClient",
+    "message": "everything is ok?",
+    "time": "20:02",
+    "isFirstInSequence": false
+  },
+  {
+    "messageType": "theirs",
+    "messageStatis": "recivedByClient",
+    "message": "I'm ok' how about yourself?",
+    "time": "20:01",
+    "isFirstInSequence": true
+  },
+  {
+    "messageType": "mine",
+    "messageStatis": "readByUser",
+    "message": "hi there",
+    "time": "20:01",
+    "isFirstInSequence": true
+  },
+  {
+    "messageType": "theirs",
+    "messageStatis": "readByUser",
+    "message": "hi, how are you?",
+    "time": "20:00",
+    "isFirstInSequence": true
+  },
+  {
+    "messageType": "time",
+    "message": "Today"
+  },
+  {
+    "messageType": "theirs",
+    "messageStatis": "recivedByClient",
+    "message": "everything is ok?",
+    "time": "20:02",
+    "isFirstInSequence": false
+  },
+  {
+    "messageType": "theirs",
+    "messageStatis": "recivedByClient",
+    "message": "I'm ok' how about yourself?",
+    "time": "20:01",
+    "isFirstInSequence": true
+  },
+  {
+    "messageType": "mine",
+    "messageStatis": "readByUser",
+    "message": "hi there",
+    "time": "20:01",
+    "isFirstInSequence": true
+  },
+  {
+    "messageType": "theirs",
+    "messageStatis": "readByUser",
+    "message": "hi, how are you?",
+    "time": "20:00",
+    "isFirstInSequence": true
+  },
+  {
+    "messageType": "time",
+    "message": "Today"
+  }
+]
