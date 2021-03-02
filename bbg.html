@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        
+            
+                    <title>Building and Deploying a Linux Kernel on the Beaglebone Black Development Board</title>
+                    <link rel="shortcut icon" href="https://alexrhodes.io/static/favicon/favicon.ico">
+                    <meta property="og:title" content="Building and Deploying a Linux Kernel on the Beaglebone Black Development Board">
+                    <meta property="og:type" content="article">
+                    <meta property="og:url" content="http://rt-ed.co.il">
+                    <meta property="og:image" content="http://alexrhodes.io/static/blog/image/post-images/beagle-boot/thumb.png">
+                    <meta property="og:site_name" content="RTG.io">
+                    
+                        <meta property="og:description" content="Building and deploying a custom Linux kernel for the Beaglebone Black."> 
+                        <meta name="twitter:description" content="Building and deploying a custom Linux kernel for the Beaglebone Black.">
+                        <meta name="description" content="Building and deploying a custom Linux kernel for the Beaglebone Black.">
+                     
+                    <meta name="twitter:card" content="summary">
+                    <meta name="twitter:site" content="@alex__rhodes">
+                    <meta name="twitter:title" content="Building and Deploying a Linux Kernel on the Beaglebone Black Development Board">
+                    <meta name="twitter:image" content="http://alexrhodes.io/static/blog/image/post-images/beagle-boot/thumb.png">
+            
+        
+        <link type="text/css" rel="stylesheet" href="Building%20and%20Deploying%20a%20Linux%20Kernel%20on%20the%20Beaglebone%20Black%20Development%20Board_files/global.css">
+        <link type="text/css" rel="stylesheet" href="Building%20and%20Deploying%20a%20Linux%20Kernel%20on%20the%20Beaglebone%20Black%20Development%20Board_files/prism.css">
+        <link rel="stylesheet" href="Building%20and%20Deploying%20a%20Linux%20Kernel%20on%20the%20Beaglebone%20Black%20Development%20Board_files/bootstrap.css">
+        <script async="" src="Building%20and%20Deploying%20a%20Linux%20Kernel%20on%20the%20Beaglebone%20Black%20Development%20Board_files/analytics.js"></script><script src="Building%20and%20Deploying%20a%20Linux%20Kernel%20on%20the%20Beaglebone%20Black%20Development%20Board_files/jquery.js"></script>        
+        <script src="Building%20and%20Deploying%20a%20Linux%20Kernel%20on%20the%20Beaglebone%20Black%20Development%20Board_files/bootstrap.js"></script>
+        <script src="Building%20and%20Deploying%20a%20Linux%20Kernel%20on%20the%20Beaglebone%20Black%20Development%20Board_files/prism.js"></script>
+    </head>
+    
+    <body>
+        <div class="container-fluid">
+            <div class="row main-header">
+                <img src="Building%20and%20Deploying%20a%20Linux%20Kernel%20on%20the%20Beaglebone%20Black%20Development%20Board_files/header.png" class="img-responsive header-img">
+            </div>
+        </div>
+        <div class="container" style="width:100%">
+           
+    <style>
+    .container{
+        width:80% !important;
+    }
+    img{
+        max-width:50vw;
+        height:auto;
+    }
+    code{
+        word-wrap: break-word !important;
+    }
+    </style>
+            <!-- Begin recent post list -->
+    
+        <div class="row">
+            <div class="col-lg-12 page-header">
+                <h1>Building and Deploying a Linux Kernel on the Beaglebone Black Development Board</h1>
+                <h7>copyed from <a href="https://alexrhodes.io/">Alex Rhodes </a> - April 7, 2020   
+                <br><a href="https://alexrhodes.io/blog/post/21/">Source</a>
+                </h7>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                
+                <p>
+                    </p><p>I was working on a project that required 
+writing a Linux device driver. I chose to do this on a Beaglebone Black,
+ an inexpensive single board Linux computer. The first step was to set 
+up an environment to build a custom kernel and device tree. This 
+write-up describes that process.</p>
+<p>The board I am using can be found <a href="https://beagleboard.org/black">here.</a></p>
+<h2>Initial Setup</h2>
+<p>I am developing on a windows machine using a Linux virtual machine in
+ Oracle VirtualBox. If you are developing directly on a Linux machine or
+ some other platform not all of these instructions will be applicable. 
+The first step is to follow the beaglbone quick start guide to boot the 
+board. To summarize:</p>
+<p>Download the official beaglebone image from <a href="https://beagleboard.org/latest-images">the beagleboard website.</a></p>
+<p>Use <a href="https://www.balena.io/etcher/">BalenaEtcher</a> to flash an SD card with the image.</p>
+<p><img src="Building%20and%20Deploying%20a%20Linux%20Kernel%20on%20the%20Beaglebone%20Black%20Development%20Board_files/balena.PNG" alt=""></p>
+<p>Connect to the Beaglebone using a breadboard and USB serial adapter like <a href="https://www.amazon.com/HiLetgo-FT232RL-Converter-Adapter-Breakout/dp/B00IJXZQ7C/ref=sr_1_4?dchild=1&amp;keywords=ftdi+USB+to+serial&amp;qid=1586227079&amp;sr=8-4">this one</a>,
+ connected to the serial header on the Beaglebone black. The connector 
+is next to the 48 pin connector on the power supply jack side of the 
+board:</p>
+<pre><code>Pin 1 (closest to power supply side): Ground
+Pin 4: RX
+Pin 5: TX
+
+</code></pre>
+<p>On the Linux, install the packages needed for the kernel build process:</p>
+<pre><code>sudo apt-get install  gcc-arm-Linux-gnueabi qt5-default g++ pkg-config libssl-dev 
+
+</code></pre>
+<p>On the Linux, install the packages git:</p>
+<pre><code>sudo apt-get install  git
+
+</code></pre>
+<p>On the Linux, install the packages picocom,minicom:</p>
+<pre><code>sudo apt-get install  minicom <br>sudo apt-get install  picocom 
+
+</code></pre>
+<p>In a terminal window, connect to the Beaglebone. <code>/dev/ttyUSB0</code> here is the USB serial adapter. Connect to the board with Picocom:</p>
+<pre><code>sudo picocom -b 115200 /dev/ttyUSB0<br>OR<br> sudo minicom -s
+(ctrl a ctrl x to exit)
+
+</code></pre>
+<p><img src="Building%20and%20Deploying%20a%20Linux%20Kernel%20on%20the%20Beaglebone%20Black%20Development%20Board_files/logprompt.PNG" alt=""></p>
+<p>Log in with the NAT in the terminal window</p>
+<p><code>ssh debian@192.168.7.2</code>
+
+<h2>Building the Kernel</h2>
+<p>On the Linux VM, clone the Beaglebone Linux kernel:</p>
+<p><code>git clone git://github.com/beagleboard/Linux.git</code></p>
+<p>On the Beaglebone, obtain the version of the existing kernel:</p>
+<p><code>uname -r</code></p>
+<p><img src="Building%20and%20Deploying%20a%20Linux%20Kernel%20on%20the%20Beaglebone%20Black%20Development%20Board_files/defuname.PNG" alt=""></p>
+<p>The output of this comlex Rhodes - April 7, 2020
+
+I was working on a project that mand is the tag name to check out in the Beaglebone repository. Back on the VM:</p>
+<p><code>git checkout &lt;version&gt;</code></p>
+<p>Create a new branch for your kernel development:</p>
+<p><code>git checkout -b custom-kernel</code></p>
+<p><img src="Building%20and%20Deploying%20a%20Linux%20Kernel%20on%20the%20Beaglebone%20Black%20Development%20Board_files/gitstuff.PNG" alt=""></p>
+<p>The <code>ARCH</code> and <code>CROSS_COMPILE</code> environment 
+variables need to be set. They can be passed on the command line but, 
+for convenience, add them to your bash profile:
+<code>vi ~/.profile</code></p>
+<pre><code>export ARCH=arm
+export CROSS_COMPILE=arm-Linux-gnueabi-
+
+</code></pre>
+<p>Change into the Linux directory and build with the default configuration:</p>
+<p><code>make bb.org_defconfig</code></p>
+<p>If desired, this configuration can be modified with xconfig/menuconfig etc. eg:</p>
+<p><code>make -j6</code></p>
+               <p></p>
+            </div>
+        </div>
+        <script>
+            $("img").each(function(){
+                console.log();
+                var a = $(this).closest("a");
+                var href = $(a).attr("href");
+                if(typeof href != "undefined" && href.includes("/static/blog/image/post-images/")){
+                    $(a).replaceWith(this);
+                }
+            });
+        </script>
+    
+
+        </div>
+        <script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+		
+		  ga('create', 'UA-73741432-2', 'auto');
+		  ga('send', 'pageview');
+    	</script> 
+        <div style="display:none">
+            Get honeypotted? I like spam.
+            <a href="mailto:ar.hp@outlook.com">Contact Us</a>
+            <a href="https://alexrhodes.io/blog/post/21/ar.hp@outlook.com">Contact Us</a>
+            <a href="mailto:ar.hp@outlook.com">Email</a>
+            <a href="https://alexrhodes.io/blog/post/21/ar.hp@outlook.com">Email</a>
+            ar.hp@outlook.com
+            email: ar.hp@outlook.com
+        </div>   
+        
+</body></html>
